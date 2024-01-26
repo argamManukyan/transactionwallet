@@ -16,7 +16,7 @@ class Wallet(BaseModel):
 class Transaction(BaseModel):
     """Transactions save model"""
 
-    txid = models.SlugField(unique=True, db_index=True)
+    txid = models.CharField(unique=True, db_index=True, max_length=255)
     amount = models.DecimalField(max_digits=18, decimal_places=4)
     wallet = models.ForeignKey(
         Wallet,
