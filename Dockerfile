@@ -6,7 +6,9 @@ WORKDIR /app
 
 COPY requirements.txt requirements.txt
 
-RUN apk-get update
+RUN apk-get update && \
+    python3 -m venv venv && \
+    pip3 install -r requirements.txt
 
 COPY . .
 
