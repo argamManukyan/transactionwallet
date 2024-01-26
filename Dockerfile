@@ -1,17 +1,17 @@
-FROM python3.11-alpine
+FROM python:3.11-alpine
 
 ENV PYTHONENVBUFFERED=1
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
 
-RUN apk-get update && \
-    python3 -m venv venv && \
+RUN apk  update && \
     pip3 install -r requirements.txt
 
 COPY . .
 
 EXPOSE 8000
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN ["chmod", "+x", "entrypoint.sh"]
+CMD ["sh","entrypoint.sh"]
