@@ -6,10 +6,13 @@ services:
       - web
     env_file:
       - .env
+    volumes:
+      - pg_files:/var/lib/postgresql/data
 
   web:
     build:
       context: .
+    restart: on-failure
     ports:
       - "8000:8000"
     networks:
@@ -20,6 +23,9 @@ services:
       - .env
     depends_on:
       - db
+
+volumes:
+  pg_files:
 
 networks:
   web:
