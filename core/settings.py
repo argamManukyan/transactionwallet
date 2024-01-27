@@ -92,6 +92,8 @@ DATABASES = {
 }
 
 
+SWAGGER_SETTINGS = {"DEFAULT_AUTO_SCHEMA_CLASS": "core.swagger.CustomAutoSchema"}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -138,7 +140,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.JSONParser",
     ],
     "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.OrderingFilter",
-        # "django_filters.rest_framework.DjangoFilterBackend",
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
+    "EXCEPTION_HANDLER": "core.exception_handler.custom_exception_handler",
 }

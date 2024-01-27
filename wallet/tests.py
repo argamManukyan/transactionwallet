@@ -1,7 +1,5 @@
-import os
 from decimal import Decimal
 
-from django.conf import settings
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.test import APITestCase
@@ -78,6 +76,9 @@ class TestTransaction(APITestCase):
         data = {"label": "My Wallet"}
         self.client.post(WALLET_URL_PATH, data, format="json")
 
+    def tearDown(self):
+        super().tearDown()
+
     def test_create_transaction(self):
         data = {"wallet": 1, "txid": "xasxasx", "amount": "300.1"}
 
@@ -98,8 +99,6 @@ class TestTransaction(APITestCase):
 
     def test_create_transaction_funds_fail(self):
         data_one = {"wallet": 1, "txid": "xasxasx", "amount": "-300.1"}
-
-        self.client.post(TRANSACTION_URL_PATH, data_one, format="json")
 
         response = self.client.post(TRANSACTION_URL_PATH, data_one, format="json")
         assert response.data["errors"]["detail"] == NotEnoughFunds.default_detail
