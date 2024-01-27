@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 from wallet.serializers import WalletModelSerializer, TransactionModelSerializer
 from wallet.services import WalletService, TransactionService
@@ -10,6 +11,7 @@ class WalletViewSet(ModelViewSet):
 
     queryset = WalletService.get_wallets_list()
     serializer_class = WalletModelSerializer
+    pagination_class = LimitOffsetPagination
     lookup_field = "id"
     http_method_names = ["post", "patch", "delete", "get"]
     filter_backends = [
@@ -19,6 +21,7 @@ class WalletViewSet(ModelViewSet):
     ]
     ordering_fields = ["label", "balance"]
     search_fields = ["label"]
+    tags = ["wallet"]
 
 
 class TransactionViewSet(ModelViewSet):
@@ -26,6 +29,7 @@ class TransactionViewSet(ModelViewSet):
 
     serializer_class = TransactionModelSerializer
     queryset = TransactionService.get_transactions_list()
+    pagination_class = LimitOffsetPagination
     lookup_field = "id"
     http_method_names = ["post", "delete", "get"]
     filter_backends = [
@@ -38,6 +42,7 @@ class TransactionViewSet(ModelViewSet):
         "amount",
         "txid",
     ]
+    tags = ["transaction"]
 
     def perform_create(self, serializer):
         data = serializer.save()
